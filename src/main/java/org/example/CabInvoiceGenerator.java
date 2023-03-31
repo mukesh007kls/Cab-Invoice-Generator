@@ -13,4 +13,12 @@ public class CabInvoiceGenerator {
         }
         return totalFare;
     }
+
+    public double calculateFareForMultipleRides(Rides[] rides){
+        double totalFare=0;
+        for (Rides x:rides) {
+            totalFare+=this.calculateTotalFare(x.distance,x.time);
+        }
+        return totalFare;
+    }
 }
