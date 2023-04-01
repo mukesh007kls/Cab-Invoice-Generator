@@ -1,4 +1,5 @@
 import org.example.CabInvoiceGenerator;
+import org.example.RideCategory;
 import org.example.Rides;
 import org.example.Summary;
 import org.junit.Assert;
@@ -67,6 +68,29 @@ public class CabInvoiceTest {
         Summary summary1Expected=new Summary(4,499.0);
         Summary summary2=cabInvoiceGenerator.calculateFareForMultipleRidersSummary(userId2);
         Summary summary2Expected=new Summary(2,10);
+        Assert.assertEquals(summary1Expected,summary1);
+        Assert.assertEquals(summary2Expected,summary2);
+    }
+    @Test
+    public void given_Riders_Should_Return_There_Summary_Premium(){
+        String userID1="mukesh";
+        String userId2="klsa";
+        Rides[] rides1={
+                new Rides(10.0,4, RideCategory.NORMAL_RIDE),
+                new Rides(0.1,2,RideCategory.PREMIUM_RIDE),
+                new Rides(20.0,10,RideCategory.PREMIUM_RIDE),
+                new Rides(15.0,30,RideCategory.NORMAL_RIDE)
+        };
+        Rides[] rides2={
+                new Rides(0.1,2,RideCategory.PREMIUM_RIDE),
+                new Rides(0.1,1,RideCategory.NORMAL_RIDE)
+        };
+        cabInvoiceGenerator.addRide(userID1,rides1);
+        cabInvoiceGenerator.addRide(userId2,rides2);
+        Summary summary1=cabInvoiceGenerator.getSummaryForCategory(userID1);
+        Summary summary1Expected=new Summary(4,624.0);
+        Summary summary2=cabInvoiceGenerator.getSummaryForCategory(userId2);
+        Summary summary2Expected=new Summary(2,25.0);
         Assert.assertEquals(summary1Expected,summary1);
         Assert.assertEquals(summary2Expected,summary2);
     }
