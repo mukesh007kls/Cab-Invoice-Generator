@@ -1,9 +1,13 @@
 package org.example;
 
+import java.util.HashMap;
+
 public class CabInvoiceGenerator {
     private static final int COST_PER_KM = 10;
     private static final int COST_PER_MIN = 1;
     private static final double MINIMUM_FARE = 5;
+
+    HashMap<String,Rides[]> ridesRepos=new HashMap<>();
 
     public double calculateTotalFare(double distance, int time) {
         double totalFare;
@@ -27,5 +31,13 @@ public class CabInvoiceGenerator {
             totalFare+=this.calculateTotalFare(x.distance,x.time);
         }
         return new Summary(rides.length,totalFare);
+    }
+
+    public Summary calculateFareForMultipleRidersSummary(String userID){
+        Rides[] rides=ridesRepos.get(userID);
+        return  calculateFareForMultipleRidesSummary(rides);
+    }
+    public void addRide(String userId,Rides[] rides){
+        ridesRepos.put(userId,rides);
     }
 }
